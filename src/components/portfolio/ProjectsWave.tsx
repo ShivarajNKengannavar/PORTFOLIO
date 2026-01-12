@@ -1,0 +1,454 @@
+import React, { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ExternalLink, Github, ChevronDown, ChevronRight } from "lucide-react";
+import gsap from "gsap";
+import { CustomEase } from "gsap/CustomEase";
+
+// Simple Interactive Grid Pattern Component
+const InteractiveGridPattern = ({ className }: { className?: string }) => {
+  // Use the same orange color from projects
+  const projectOrange = "#ff6a2a";
+  
+  return (
+    <div className={`absolute inset-0 ${className}`}>
+      {/* SOLID ORANGE BLOCK BACKGROUND */}
+      <div className="absolute inset-0" style={{ backgroundColor: projectOrange }} />
+      
+      {/* White grid overlay on top of orange */}
+      <div className="absolute inset-0" style={{
+        backgroundImage: `
+          linear-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.8) 1px, transparent 1px)
+        `,
+        backgroundSize: '50px 50px'
+      }} />
+      
+      {/* Subtle overlay for depth */}
+      <div className="absolute inset-0 animate-pulse" style={{
+        background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%)'
+      }} />
+    </div>
+  );
+};
+
+// Register GSAP Plugin for the specific easing used in your zip file
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(CustomEase);
+  CustomEase.create("cubic", "0.83, 0, 0.17, 1");
+}
+
+interface Project {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  techStack: string[];
+  gradient: string;
+  projectLink?: string;
+  sourceLink?: string;
+  image?: string;
+  category?: string;
+  color?: string;
+}
+
+const projects: Project[] = [
+  {
+    id: 1,
+    title: "SecureStego",
+    subtitle: "Multi-Media Steganography Suite",
+    description: "A steganography solution concealing secrets within images, audio, and video with AES-256 encryption.",
+    techStack: ["Python", "Flask", "OpenCV"],
+    gradient: "from-lavender via-accent to-rose",
+    sourceLink: "https://github.com/shivarajnk/securestego",
+    image: "/projects/securestego.jpeg",
+    category: "Security",
+    color: "#ff6a2a"
+  },
+  {
+    id: 2,
+    title: "hiREsume",
+    subtitle: "AI-Powered Career Platform",
+    description: "Intelligent resume screening using NLP to match talents with opportunities.",
+    techStack: ["LangChain", "ChromaDB", "React"],
+    gradient: "from-accent via-lavender to-cerulean",
+    sourceLink: "https://github.com/shivarajnk/hiresume",
+    image: "/projects/hiresume.png",
+    category: "AI/ML",
+    color: "#ff6a2a"
+  },
+  {
+    id: 3,
+    title: "Precision Fertilizer",
+    subtitle: "Sustainable Agriculture Innovation",
+    description: "ML solution optimizing fertilizer recommendations for healthier crops.",
+    techStack: ["Scikit-learn", "Pandas", "Flask"],
+    gradient: "from-rose via-lavender to-accent",
+    sourceLink: "https://github.com/shivarajnk/precision-fertilizer",
+    image: "/projects/precision-fertilizer.png",
+    category: "Agriculture",
+    color: "#ff6a2a"
+  },
+  {
+    id: 4,
+    title: "GreenHub",
+    subtitle: "Online Nursery Management",
+    description: "Digital ecosystem designed to streamline nursery operations and e-commerce.",
+    techStack: ["PHP", "MySQL", "Bootstrap"],
+    gradient: "from-green-600 to-lime-500",
+    sourceLink: "https://github.com/shivarajnk/greenhub",
+    image: "/projects/greenhub.png",
+    category: "E-Commerce",
+    color: "#ff6a2a"
+  },
+  {
+    id: 5,
+    title: "PyroGuard AI",
+    subtitle: "Fire Detection & Segmentation",
+    description: "Computer vision system for real-time fire identification using YOLOv8.",
+    techStack: ["PyTorch", "OpenCV", "YOLOv8"],
+    gradient: "from-red-600 to-orange-500",
+    sourceLink: "https://github.com/shivarajnk/pyroguard-ai",
+    image: "/projects/pyroguard.png",
+    category: "Computer Vision",
+    color: "#ff6a2a"
+  },
+  {
+    id: 6,
+    title: "VAIDYA",
+    subtitle: "Disease Prediction System",
+    description: "Healthcare assistant leveraging ML to bridge symptom recognition and clinical guidance.",
+    techStack: ["Scikit-Learn", "Flask", "Pandas"],
+    gradient: "from-purple-600 to-pink-500",
+    sourceLink: "https://github.com/shivarajnk/vaidya",
+    image: "/projects/vaidya.png",
+    category: "Healthcare",
+    color: "#ff6a2a"
+  },
+];
+
+const ProjectsWave = () => {
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // Replicates the splitTextIntoSpans logic from your script.js
+  const renderSplitText = (text: string) => {
+    return text.split("").map((char, index) => (
+      <span key={index} className="inline-block translate-y-[200px]">
+        {char === " " ? "\u00A0\u00A0" : char}
+      </span>
+    ));
+  };
+
+  // Replicates initializeCards from your script.js
+  const initializeCards = () => {
+    if (!sliderRef.current) return;
+    const cards = Array.from(sliderRef.current.querySelectorAll(".project-card"));
+    
+    gsap.to(cards, {
+      y: (i) => -15 + 15 * i + "%",
+      z: (i) => 15 * i,
+      opacity: 1,
+      duration: 1,
+      ease: "cubic",
+      stagger: -0.1,
+    });
+  };
+
+  useEffect(() => {
+    initializeCards();
+    // Set the initial active card text (the last card in the stack) to visible
+    if (sliderRef.current) {
+      const lastCard = sliderRef.current.querySelector(".project-card:last-child");
+      if (lastCard) {
+        gsap.set(lastCard.querySelectorAll("h1 span"), { y: 0 });
+      }
+    }
+  }, []);
+
+  // Replicates the Click Event Listener from your script.js
+  const handleSliderClick = () => {
+    if (isAnimating || !sliderRef.current) return;
+    setIsAnimating(true);
+
+    const slider = sliderRef.current;
+    const cards = Array.from(slider.querySelectorAll(".project-card"));
+    const lastCard = cards[cards.length - 1];
+    const nextCard = cards[cards.length - 2];
+
+    // Animate out current title
+    gsap.to(lastCard.querySelectorAll("h1 span"), {
+      y: 200,
+      duration: 0.75,
+      ease: "cubic",
+    });
+
+    // Animate out current card and move to back
+    gsap.to(lastCard, {
+      y: "+=150%",
+      duration: 0.75,
+      ease: "cubic",
+      onComplete: () => {
+        slider.prepend(lastCard);
+        initializeCards();
+        gsap.set(lastCard.querySelectorAll("h1 span"), { y: -200 });
+
+        setTimeout(() => {
+          setIsAnimating(false);
+        }, 1000);
+      },
+    });
+
+    // Animate in next title
+    if (nextCard) {
+      gsap.to(nextCard.querySelectorAll("h1 span"), {
+        y: 0,
+        duration: 1,
+        ease: "cubic",
+        stagger: 0.05,
+      });
+    }
+  };
+
+  return (
+    <section id="projects" className="relative w-full min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
+      {/* ORANGE BLOCK CONTAINER - Contains everything */}
+      <div 
+        className="relative w-full min-h-screen p-8"
+        style={{ backgroundColor: '#ff6a2a' }}
+      >
+        {/* White grid overlay inside orange block */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px)
+            `,
+            backgroundSize: '25px 25px',
+            clipPath: 'polygon(0% 25px, 100% 25px, 100% calc(100% - 25px), 0% calc(100% - 25px))'
+          }}
+        />
+        {/* Vertical lines only at top and bottom edges */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px)
+            `,
+            backgroundSize: '25px 25px',
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 25px, 0% 25px, 0% calc(100% - 25px), 100% calc(100% - 25px), 100% 100%, 0% 100%)'
+          }}
+        />
+        
+        {/* Subtle overlay for depth */}
+        <div className="absolute inset-0 animate-pulse" style={{
+          background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%)'
+        }} />
+        
+        {/* ================= COMPACT TITLE ================= */}
+        <div className="relative z-20 py-4 px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="font-sans text-3xl md:text-4xl font-black mb-3 tracking-tight">
+              Featured Projects
+            </h2>
+            <div className="w-16 h-1 bg-white mx-auto mb-3"></div>
+            <p className="text-white/80 text-sm md:text-base font-light leading-relaxed">
+              A curated collection of innovative solutions and creative work
+            </p>
+          </motion.div>
+        </div>
+
+        {/* ================= DRAG INSTRUCTION ================= */}
+        <div className="relative z-20 py-2 px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="max-w-2xl mx-auto text-center"
+          >
+            <p className="text-white/60 text-xs md:text-sm font-medium flex items-center justify-center gap-2">
+              <svg className="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 11-3 0m6 0a1.5 1.5 0 11-3 0m-3 6a1.5 1.5 0 11-3 0m6 0a1.5 1.5 0 01-3 0M12 10.5a1.5 1.5 0 11-3 0m6 0a1.5 1.5 0 11-3 0m-3 6a1.5 1.5 0 11-3 0m6 0a1.5 1.5 0 01-3 0" />
+              </svg>
+              Drag cards to explore projects
+            </p>
+          </motion.div>
+        </div>
+
+        {/* ================= STACKED PROJECTS SECTION ================= */}
+        <div className="relative z-20 px-6 pb-8">
+          <div className="max-w-7xl mx-auto relative">
+            {/* Stacked Projects Container */}
+            <div className="relative w-full h-[400px] flex items-center justify-center">
+              {projects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  drag
+                  dragMomentum={false}
+                  dragElastic={0.3}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="absolute w-[280px] group cursor-grab active:cursor-grabbing shadow-2xl"
+                  style={{
+                    // Stack cards on top of each other with slight offset
+                    top: `${index * 2}px`,
+                    left: `${index * 2}px`,
+                    zIndex: 1000
+                  }}
+
+                  whileDrag={{ 
+                    scale: 1.1, 
+                    zIndex: 1000
+                  }}
+                >
+                  <div 
+                    className="relative rounded-2xl overflow-hidden border transition-all duration-500"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.95)',
+                      borderColor: 'rgba(255, 255, 255, 0.8)',
+                      borderWidth: '2px'
+                    }}
+                  >
+                    {/* Project Image Section */}
+                    <div className='relative h-44 overflow-hidden'>
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                      {/* Floating Category Badge */}
+                      <div className="absolute top-3 left-3 z-20">
+                        <span 
+                          className="px-2 py-1 text-white text-xs font-semibold rounded-full shadow-lg backdrop-blur-sm"
+                          style={{
+                            background: `linear-gradient(135deg, ${project.color}, ${project.color}cc)`
+                          }}
+                        >
+                          {project.category}
+                        </span>
+                      </div>
+                      {/* GitHub Icon */}
+                      <div className="absolute top-3 right-3 z-20">
+                        <a 
+                          href={project.sourceLink}
+                          target="_blank"
+                          className="p-1.5 bg-white/90 backdrop-blur-sm rounded-lg transition-colors duration-300 border border-white/80 hover:scale-110"
+                          style={{
+                            borderColor: project.color
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Github size={14} className="text-gray-800" />
+                        </a>
+                      </div>
+                    </div>
+                    {/* Project Content */}
+                    <div className='p-4 relative z-10'>
+                      <div className='mb-2'>
+                        <h3 
+                          className='text-lg font-bold mb-1 transition-colors duration-300'
+                          style={{
+                            color: '#1f2937'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.color = project.color;
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.color = '#1f2937';
+                          }}
+                        >
+                          {project.title}
+                        </h3>
+                        <p className='text-xs text-gray-600 leading-relaxed line-clamp-2'>
+                          {project.description}
+                        </p>
+                      </div>
+                      {/* Tech Stack */}
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {project.techStack.slice(0, 3).map(tech => (
+                          <span 
+                            key={tech} 
+                            className="px-2 py-0.5 bg-white/80 backdrop-blur-sm border rounded-full text-xs font-medium transition-all duration-300"
+                            style={{
+                              borderColor: `${project.color}50`,
+                              color: '#374151'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = project.color;
+                              e.currentTarget.style.color = project.color;
+                              e.currentTarget.style.backgroundColor = project.color + '20';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = `${project.color}50`;
+                              e.currentTarget.style.color = '#374151';
+                              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.8)';
+                            }}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      {/* Action Link */}
+                      <a
+                        href={project.sourceLink}
+                        target="_blank"
+                        className='inline-flex items-center gap-1 text-sm font-medium transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0'
+                        style={{
+                          color: project.color
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        View Project
+                        <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ================= CALL TO ACTION SECTION ================= */}
+        <div className="relative z-20 py-16 px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h3 className="font-sans text-3xl md:text-4xl font-bold mb-4 text-white">
+                Many More To Discover
+              </h3>
+              <p className="text-white/80 text-lg mb-8">
+                Explore my complete collection of innovative projects
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a 
+                  href="https://github.com/ShivarajNKengannavar"
+                  target="_blank"
+                  className="inline-flex items-center gap-2 px-8 py-3 bg-white text-orange-600 font-semibold rounded-lg transition-colors duration-200 hover:scale-105"
+                >
+                  <Github size={20} />
+                  See GitHub
+                </a>
+                <button className="px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold rounded-lg transition-colors duration-200">
+                  Discover More
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ProjectsWave;
