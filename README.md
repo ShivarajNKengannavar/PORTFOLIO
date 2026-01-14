@@ -249,7 +249,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 - **Email**: shivarajnkengannavar@example.com
-- **Portfolio**: https://shivaraj.dev
+- **Portfolio**: [https://shivaraj.dev](https://shivarajnkengannavar-portfolio.vercel.app/)
 - **LinkedIn**: [https://www.linkedin.com/in/shivarajkengannavar/)]
 - **GitHub**: [(https://github.com/ShivarajNKengannavar)]
 
