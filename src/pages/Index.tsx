@@ -3,7 +3,6 @@ import Navigation from "@/components/portfolio/Navigation";
 import IntroLoader from "@/components/portfolio/IntroLoader";
 import HeroSection from "@/components/portfolio/HeroSection";
 import AboutSection from "@/components/portfolio/AboutSection";
-import WhyDifferent from "@/components/portfolio/WhyDifferent";
 import SkillsSection from "@/components/portfolio/SkillsSection";
 import ProjectsDivider from "@/components/portfolio/ProjectsDivider";
 //import ProjectsSection from "@/components/portfolio/ProjectsSection";
@@ -31,7 +30,6 @@ const Index = () => {
       <main className="bg-[#000000]">
         <HeroSection />
         <AboutSection />
-        <WhyDifferent />
         <SkillsSection />
         <ProjectsDivider />
         <ProjectsWave />

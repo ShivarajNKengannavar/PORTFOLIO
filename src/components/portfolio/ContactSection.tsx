@@ -1,8 +1,9 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, Mail, Linkedin, Github, MapPin, Loader2, MessageCircle, Phone, Globe } from "lucide-react";
+import { Send, Mail, Linkedin, Github, MapPin, Loader2, Film } from "lucide-react";
+import { Link } from "react-router-dom";
 import emailjs from '@emailjs/browser';
-import CatPeepsSection from "./CatPeepsSection";
+import InfiniteCarousel from "./InfiniteCarousel";
 
 interface FormState {
   name: string;
@@ -40,12 +41,6 @@ const ContactSection = () => {
         throw new Error('Form reference is not available');
       }
 
-      console.log('Form data:', {
-        name: formState.name,
-        email: formState.email,
-        message: formState.message
-      });
-
       const response = await emailjs.sendForm(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
@@ -63,7 +58,7 @@ const ContactSection = () => {
       console.error('Email send error:', error);
       setSubmitStatus({
         success: false,
-        message: 'Oops! Something went wrong with the form. Please try again or reach out directly using the contact information below.'
+        message: 'Oops! Something went wrong. Please try again or email me directly.'
       });
     } finally {
       setIsSubmitting(false);
@@ -84,15 +79,11 @@ const ContactSection = () => {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative py-24 md:py-32 px-6 overflow-hidden"
-      style={{
-        backgroundColor: "#000000"
-      }}
+      className="relative py-12 md:py-16 px-6 overflow-hidden"
+      style={{ backgroundColor: "#000000" }}
     >
       {/* Background */}
-      <div className="absolute inset-0" style={{
-        background: "linear-gradient(to top, #000000, transparent)"
-      }} />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #000000, transparent)" }} />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 rounded-full bg-lavender/10 blur-3xl" />
       <div className="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/10 blur-3xl" />
 
@@ -102,7 +93,7 @@ const ContactSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-6"
         >
           <h2 className="font-bodoni italic font-bold text-[clamp(3.2rem,8vw,6.5rem)] tracking-[-0.02em] leading-[0.92] mb-4">
             Let's <span className="aurora-text">Connect</span>
@@ -113,31 +104,26 @@ const ContactSection = () => {
           </p>
         </motion.div>
 
-        {/* CatPeeps Section */}
-        <CatPeepsSection />
+        {/* Infinite Carousel Section - Moved Above Grid */}
+        <div className="mb-6">
+            <InfiniteCarousel />
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-4 items-start mb-8">
           {/* Left: Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-8"
+            className="space-y-3"
           >
             <div className="glass-card p-8">
-              <h3 className="font-bodoni italic font-bold text-2xl tracking-[-0.02em] leading-[0.92] mb-6">Get in Touch</h3>
-              
-              <div className="space-y-6">
+              <h3 className="font-bodoni italic font-bold text-2xl tracking-[-0.02em] leading-[0.92] mb-2">Get in Touch</h3>
+              <div className="space-y-2">
                 {/* Email */}
                 <div className="flex items-center gap-4 group">
-                  <a 
-                    href="mailto:shivarajnkengannavar@gmail.com"
-                    className="flex items-center gap-4 w-full"
-                  >
-                    <motion.div 
-                      whileHover={{ x: 5 }}
-                      className="flex items-center gap-4 w-full"
-                    >
+                  <a href="mailto:shivarajnkengannavar@gmail.com" className="flex items-center gap-4 w-full">
+                    <motion.div whileHover={{ x: 5 }} className="flex items-center gap-4 w-full">
                       <div className="w-12 h-12 rounded-full bg-lavender/20 flex items-center justify-center group-hover:bg-lavender/30 transition-colors">
                         <Mail className="w-5 h-5 text-lavender" />
                       </div>
@@ -152,10 +138,7 @@ const ContactSection = () => {
                 </div>
 
                 {/* Location */}
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  className="flex items-center gap-4"
-                >
+                <motion.div whileHover={{ x: 5 }} className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
                     <MapPin className="w-5 h-5 text-accent" />
                   </div>
@@ -167,8 +150,8 @@ const ContactSection = () => {
               </div>
 
               {/* Social Links */}
-              <div className="mt-8 pt-6 border-t border-border">
-                <p className="font-inter text-sm text-muted-foreground mb-4 tracking-normal">Find me on</p>
+              <div className="mt-3 pt-6 border-t border-border">
+                <p className="font-inter text-sm text-muted-foreground mb-1 tracking-normal">Find me on</p>
                 <div className="flex gap-4">
                   <motion.a
                     href="https://www.linkedin.com/in/shivaraj-n-kengannavar"
@@ -204,7 +187,7 @@ const ContactSection = () => {
             <form 
               ref={formRef}
               onSubmit={handleSubmit} 
-              className="glass-card p-8 space-y-6"
+              className="glass-card p-4 space-y-2"
             >
               {/* Status Message */}
               {submitStatus && (
@@ -214,29 +197,12 @@ const ContactSection = () => {
                     : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
                 }`}>
                   <p className="font-medium">{submitStatus.message}</p>
-                  {!submitStatus.success && (
-                    <div className="mt-3 pt-3 border-t border-current/20">
-                      <p className="text-sm font-medium mb-2">Alternative ways to reach me:</p>
-                      <div className="space-y-1 text-sm">
-                        <p>📧 Email: <a href="mailto:shivarajnkengannavar@gmail.com" className="underline hover:no-underline">shivarajnkengannavar@gmail.com</a></p>
-                        <p>💼 LinkedIn: <a href="https://www.linkedin.com/in/shivaraj-n-kengannavar" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Connect with me</a></p>
-                        <p>🐙 GitHub: <a href="https://github.com/ShivarajNKengannavar" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Check my work</a></p>
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
 
               {/* Name Field */}
-              <motion.div
-                animate={{
-                  scale: focusedField === "name" ? 1.02 : 1,
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                <label className="block font-montserrat text-sm text-muted-foreground mb-2">
-                  Your Name
-                </label>
+              <motion.div animate={{ scale: focusedField === "name" ? 1.02 : 1 }}>
+                <label className="block font-montserrat text-sm text-muted-foreground mb-2">Your Name</label>
                 <input
                   type="text"
                   name="from_name"
@@ -251,15 +217,8 @@ const ContactSection = () => {
               </motion.div>
 
               {/* Email Field */}
-              <motion.div
-                animate={{
-                  scale: focusedField === "email" ? 1.02 : 1,
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                <label className="block font-montserrat text-sm text-muted-foreground mb-2">
-                  Your Email
-                </label>
+              <motion.div animate={{ scale: focusedField === "email" ? 1.02 : 1 }}>
+                <label className="block font-montserrat text-sm text-muted-foreground mb-2">Your Email</label>
                 <input
                   type="email"
                   name="from_email"
@@ -274,15 +233,8 @@ const ContactSection = () => {
               </motion.div>
 
               {/* Message Field */}
-              <motion.div
-                animate={{
-                  scale: focusedField === "message" ? 1.02 : 1,
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                <label className="block font-montserrat text-sm text-muted-foreground mb-2">
-                  Your Message
-                </label>
+              <motion.div animate={{ scale: focusedField === "message" ? 1.02 : 1 }}>
+                <label className="block font-montserrat text-sm text-muted-foreground mb-2">Your Message</label>
                 <textarea
                   name="message"
                   value={formState.message}
@@ -319,6 +271,79 @@ const ContactSection = () => {
             </form>
           </motion.div>
         </div>
+
+        {/* Tour Guide Section (Credits) - Moved to Bottom */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="relative py-3 mt-4 border-t border-white/5"
+        >
+          <div className="relative z-10 text-center">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={isInView ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="inline-flex flex-col items-center gap-4 p-6 rounded-2xl bg-gradient-to-br from-black/80 via-orange-900/60 to-black/80 backdrop-blur-lg border border-orange-500/30 shadow-xl"
+            >
+              {/* Animated Header */}
+              <div className="flex items-center gap-2">
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-lg shadow-orange-400/50"
+                />
+                <h3 className="font-bodoni italic text-xl bg-gradient-to-r from-orange-300 via-orange-400 to-orange-300 bg-clip-text text-transparent tracking-wide">
+                  Ready for the finale?
+                </h3>
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                  className="w-2 h-2 bg-gradient-to-r from-orange-500 to-orange-400 rounded-full shadow-lg shadow-orange-500/50"
+                />
+              </div>
+              
+              <p className="font-montserrat text-orange-200/80 text-sm tracking-wide max-w-sm">
+                Experience the cinematic credits sequence
+              </p>
+              
+              <Link to="/credits">
+                <motion.button
+                  whileHover={{ 
+                    y: -3, 
+                    scale: 1.03,
+                    boxShadow: "0 15px 30px rgba(251, 146, 60, 0.4)"
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative flex items-center gap-2 px-8 py-3 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-black backdrop-blur-sm border border-orange-400/50 font-montserrat text-sm font-semibold text-white shadow-lg shadow-orange-500/30 overflow-hidden group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-700 via-orange-600 to-black opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                  </div>
+                  <div className="relative flex items-center gap-2">
+                    <motion.div
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
+                    >
+                      <Film className="w-4 h-4 text-white drop-shadow-sm" />
+                    </motion.div>
+                    <span className="text-white drop-shadow-sm">View Credits</span>
+                  </div>
+                </motion.button>
+              </Link>
+              
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="font-inter text-orange-300/60 text-xs italic tracking-wide"
+              >
+                ✨ Don't miss the spectacular ending
+              </motion.p>
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -8,33 +8,48 @@ export default function ProjectsDivider() {
   const ref = useRef(null);
   const textRef = useRef(null);
 
+  const words = ["Living", "Rent", "Free", "in", "the", "IDE", "Since", "2022"];
+
   useLayoutEffect(() => {
     const section = ref.current;
     const text = textRef.current;
 
     if (!section || !text) return;
 
-    // Initial position: Start with the beginning of the text at the right edge of the screen
+    // 1. Initial State: Start with FIRST word off-screen to the right
     gsap.set(text, { x: "100vw" });
+
+    // 2. Calculate distance to center the LAST word
+    // We want the total movement to be: 
+    // (Start Position) + (Text Width) - (Last Word Width / 2) - (Viewport Width / 2)
+    // But since we are animating 'x', we just need to move left enough.
+    
+    const getEndPosition = () => {
+      const textWidth = text.scrollWidth;
+      const windowWidth = window.innerWidth;
+      
+      // We want to stop when the right edge of the text is in the middle of the screen
+      // The "end" x value should place the rightmost edge at: windowWidth / 2 + (lastWordWidth / 2)
+      // Simplified approximation: Move until the end of the strip is at the center
+      return -(textWidth - (windowWidth / 2) - (windowWidth * 0.1)); // 0.1 buffer for the last word size
+    };
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top top",
-        // Increase this percentage (e.g., 600%) to make the text move SLOWER
-        end: "+=500%", 
-        scrub: 1, // Smoothing: higher = more "weight" to the movement
-        pin: true,
+        start: "top top", 
+        end: "+=400%",    // Increased for slower movement
+        scrub: 1,         // Smooth catch-up effect
+        pin: true,        // Pin the section in place
         anticipatePin: 1,
+        invalidateOnRefresh: true, // Recalculate if the window resizes
       },
     });
 
+    // 3. The Movement: Slide all the way to the left
     tl.to(text, {
-      // Move text to the left until its entire width has passed the screen
-      // -100% moves it based on its own length, 0vw is the left edge
-      x: "-100%", 
-      xPercent: 0, 
-      ease: "none", // CRITICAL: "none" ensures constant speed relative to scroll
+      x: getEndPosition, 
+      ease: "power1.out", // Slight ease out to make the "stop" feel natural
     });
 
     return () => {
@@ -45,35 +60,42 @@ export default function ProjectsDivider() {
   return (
     <section
       ref={ref}
-      className="relative w-screen h-screen overflow-hidden bg-black"
+      className="relative w-screen h-screen overflow-hidden bg-black flex items-center"
     >
       {/* BACKGROUND IMAGE */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 opacity-60">
         <img
           src="/textures/grain.avif"
-          alt="divider"
-          className="w-full h-full object-cover opacity-80"
+          alt="texture"
+          className="w-full h-full object-cover"
           draggable={false}
         />
       </div>
 
-      {/* TEXT LAYER */}
-      <div className="relative z-10 flex items-center h-full pointer-events-none">
+      {/* TEXT CONTAINER */}
+      <div className="relative z-10 w-full overflow-visible">
         <h1
           ref={textRef}
           className="
+            flex 
+            whitespace-nowrap 
+            will-change-transform
             font-serif 
             text-white 
-            /* Huge text size to match video */
             text-[12vw] 
             leading-none
-            tracking-tighter
-            italic
-            whitespace-nowrap
-            will-change-transform
+            tracking-tighter 
+            italic 
+            font-bold
+            /* Standard Gap instead of large margins */
+            gap-[2vw] 
           "
         >
-          And Doing Things GenZ Waaaay Since 2022
+          {words.map((word, i) => (
+            <span key={i}>
+              {word}
+            </span>
+          ))}
         </h1>
       </div>
     </section>

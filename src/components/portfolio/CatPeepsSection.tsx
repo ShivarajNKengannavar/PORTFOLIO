@@ -41,10 +41,7 @@ export default function CatPeepsSection() {
               "0 0 30px rgba(255,140,60,0.5), 0 0 60px rgba(255,140,60,0.3)",
           }}
         >
-{`if opportunity or collaboration:
-    reach_out(Shivaraj)
-else:
-    say_hi()`}
+
         </pre>
       </div>
 

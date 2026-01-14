@@ -66,14 +66,9 @@
 }
 
 /* Premium overlay for cinematic depth */
+/* Change this in your CSS file */
 .premium-overlay {
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(229, 9, 20, 0.12) 0%,
-      rgba(18, 18, 18, 0.9) 55%,
-      rgba(0, 0, 0, 1) 100%
-    );
+  background: transparent; /* Remove the radial-gradient here */
 }
 
 /* Premium skip button */

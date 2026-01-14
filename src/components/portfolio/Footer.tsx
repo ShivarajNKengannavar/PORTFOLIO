@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
+import { Heart, Film } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -40,15 +41,18 @@ const Footer = () => {
               <span>and creativity</span>
             </motion.div>
 
-            {/* Back to Top */}
-            <motion.button
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              whileHover={{ y: -3, scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-2 rounded-full bg-orange-500/20 backdrop-blur-sm border border-orange-500/30 font-montserrat text-sm text-white hover:text-orange-300 transition-colors"
-            >
-              Back to Top ↑
-            </motion.button>
+            {/* Action Buttons */}
+            <div className="flex flex-wrap justify-center gap-4">
+              {/* Back to Top */}
+              <motion.button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                whileHover={{ y: -3, scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2 rounded-full bg-orange-500/20 backdrop-blur-sm border border-orange-500/30 font-montserrat text-sm text-white hover:text-orange-300 transition-colors"
+              >
+                Back to Top ↑
+              </motion.button>
+            </div>
           </div>
         </div>
       </div>
@@ -58,9 +62,15 @@ const Footer = () => {
         <div className="wave-container">
           {/* Wave 1 - Back wave (darkest) */}
           <svg className="wave wave-1" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ff6a00" />
+                <stop offset="100%" stopColor="#000000" />
+              </linearGradient>
+            </defs>
             <path
               d="M0,60 Q300,20 600,60 T1200,60 L1200,120 L0,120 Z"
-              fill="rgba(255,140,60,0.3)"
+              fill="url(#waveGradient1)"
             >
               <animate
                 attributeName="d"
@@ -77,9 +87,15 @@ const Footer = () => {
           
           {/* Wave 2 - Middle wave (medium) */}
           <svg className="wave wave-2" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ff6a00" />
+                <stop offset="100%" stopColor="#000000" />
+              </linearGradient>
+            </defs>
             <path
               d="M0,50 Q300,10 600,50 T1200,50 L1200,120 L0,120 Z"
-              fill="rgba(255,140,60,0.5)"
+              fill="url(#waveGradient2)"
             >
               <animate
                 attributeName="d"
@@ -96,9 +112,15 @@ const Footer = () => {
           
           {/* Wave 3 - Front wave (lightest) */}
           <svg className="wave wave-3" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="waveGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ff6a00" />
+                <stop offset="100%" stopColor="#000000" />
+              </linearGradient>
+            </defs>
             <path
               d="M0,40 Q300,0 600,40 T1200,40 L1200,120 L0,120 Z"
-              fill="rgba(255,140,60,0.7)"
+              fill="url(#waveGradient3)"
             >
               <animate
                 attributeName="d"

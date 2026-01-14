@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { useSoundEffects } from "@/hooks/useSoundEffects";
+import SidebarMenu from "./SidebarMenu";
 
 const navLinks = [
   { 
@@ -39,6 +40,7 @@ const navLinks = [
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [hasScrolled, setHasScrolled] = useState(false);
   const { scrollY } = useScroll();
@@ -151,7 +153,7 @@ Best regards`;
           href="#hero"
           onClick={(e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            setIsSidebarOpen(!isSidebarOpen);
             playClickSound();
           }}
           whileHover={{ scale: 1.05, rotate: 5 }}
@@ -293,6 +295,48 @@ Best regards`;
             </motion.button>
           ))}
         </div>
+      </motion.div>
+
+      {/* Sidebar Overlay */}
+      <motion.div
+        initial={false}
+        animate={{
+          opacity: isSidebarOpen ? 1 : 0,
+          pointerEvents: isSidebarOpen ? "auto" : "none",
+        }}
+        transition={{ duration: 0.3 }}
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
+        onClick={() => {
+          setIsSidebarOpen(false);
+          playClickSound();
+        }}
+      />
+
+      {/* Sidebar Menu */}
+      <motion.div
+        initial={false}
+        animate={{
+          x: isSidebarOpen ? 0 : -400,
+          opacity: isSidebarOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="fixed top-0 left-0 h-full w-80 z-[70] overflow-hidden"
+      >
+        <SidebarMenu className="h-full" />
+        
+        {/* Close Button */}
+        <motion.button
+          whileHover={{ scale: 1.1, rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => {
+            setIsSidebarOpen(false);
+            playClickSound();
+          }}
+          onHoverStart={playHoverSound}
+          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30"
+        >
+          <X className="w-5 h-5" />
+        </motion.button>
       </motion.div>
     </motion.nav>
   );

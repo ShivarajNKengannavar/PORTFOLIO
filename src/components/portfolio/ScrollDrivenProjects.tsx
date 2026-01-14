@@ -38,8 +38,8 @@ const projects: Project[] = [
       { label: "Media", value: "3+" },
       { label: "Encryption", value: "AES-256" },
     ],
-    projectLink: "https://github.com/shivarajnk/securestego",
-    sourceLink: "https://github.com/shivarajnk/securestego",
+    projectLink: "https://github.com/ShivarajNKengannavar?tab=repositories",
+    sourceLink: "https://github.com/ShivarajNKengannavar?tab=repositorieso",
   },
   // keep the rest EXACTLY as you already have
 ];
@@ -191,9 +191,9 @@ export default function ScrollDrivenProjects() {
     <section ref={containerRef} className="relative">
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center py-20">
-          <h2 className="font-bodoni italic font-bold text-[clamp(3.2rem,8vw,6.5rem)]">
+          <h1 className="font-bodoni italic font-bold text-[clamp(8rem,14vw,12rem)] aurora-text">
             Featured Projects
-          </h2>
+          </h1>
           <p className="mt-6 text-muted-foreground max-w-2xl mx-auto">
             A curated collection of innovative solutions
           </p>

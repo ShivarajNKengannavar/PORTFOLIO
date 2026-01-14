@@ -340,94 +340,79 @@ interface IntroLoaderProps {
 
 export default function IntroLoader({ onComplete }: IntroLoaderProps) {
   const [progress, setProgress] = useState(0);
-  const [showLanguage, setShowLanguage] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);
-  const [timeOfDay, setTimeOfDay] = useState<'morning' | 'evening'>('morning');
-  const [isHolding, setIsHolding] = useState(false);
-  const [audioStarted, setAudioStarted] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+    audioController.start();
+    setAudioStarted(true);
+  }
+}, [audioStarted]);
 
-  const theme = themes[timeOfDay];
+useEffect(() => {
+  const introAudio = new Audio('/sounds/intro.wav');
+  introAudio.volume = 0.15;
+  audioRef.current = introAudio;
+}, []);
 
-  const startAudio = useCallback(() => {
-    if (!audioStarted) {
-      audioController.start();
-      setAudioStarted(true);
+useEffect(() => {
+  const duration = 3000;
+  const startTime = Date.now();
+  
+  const updateProgress = () => {
+    const elapsed = Date.now() - startTime;
+    const newProgress = Math.min(100, Math.floor((elapsed / duration) * 100));
+    setProgress(newProgress);
+    
+    if (newProgress < 100) {
+      requestAnimationFrame(updateProgress);
+    } else {
+      setTimeout(() => setShowLanguage(true), 500);
     }
-  }, [audioStarted]);
-
-  useEffect(() => {
-    const duration = 3000;
-    const startTime = Date.now();
-    
-    const updateProgress = () => {
-      const elapsed = Date.now() - startTime;
-      const newProgress = Math.min(100, Math.floor((elapsed / duration) * 100));
-      setProgress(newProgress);
-      
-      if (newProgress < 100) {
-        requestAnimationFrame(updateProgress);
-      } else {
-        setTimeout(() => setShowLanguage(true), 500);
-      }
-    };
-    
-    requestAnimationFrame(updateProgress);
-  }, []);
-
-  const handleLanguageSelect = () => {
-    setIsExiting(true);
-    audioController.playChime();
-    
-    gsap.to(containerRef.current, {
-      opacity: 0,
-      scale: 1.1,
-      duration: 0.8,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        audioController.stop();
-        onComplete();
-      }
-    });
   };
+  
+  requestAnimationFrame(updateProgress);
+}, []);
 
-  const toggleTimeOfDay = () => {
-    startAudio();
-    audioController.playChime();
-    setTimeOfDay(prev => prev === 'morning' ? 'evening' : 'morning');
-  };
+const handleLanguageSelect = () => {
+  setIsExiting(true);
+  audioController.playChime();
+  
+  gsap.to(containerRef.current, {
+    opacity: 0,
+    scale: 1.1,
+    duration: 0.8,
+    ease: 'power2.inOut',
+    onComplete: () => {
+      audioController.stop();
+      onComplete();
+    }
+  });
+};
 
-  const handleMouseDown = () => {
-    startAudio();
-    setIsHolding(true);
-  };
+const handleMouseEnter = () => {
+  gsap.to(button, { scale: 1.04, duration: 0.3 });
+};
 
-  const handleMouseUp = () => {
-    setIsHolding(false);
-  };
+const handleClick = () => {
+  if (clicked) return;
+  setClicked(true);
+  audioRef.current?.play().catch(() => {});
+  const tl = gsap.timeline();
+  tl.to(buttonRef.current, { opacity: 0, scale: 0.95, duration: 0.6 });
+  if (hintRef.current) tl.to(hintRef.current, { opacity: 0, duration: 0.4 }, "-=0.4");
+  WELCOME_TEXTS.forEach((text) => {
+    tl.set(welcomeRef.current, { textContent: text });
+    tl.fromTo(welcomeRef.current, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 });
+    tl.to(welcomeRef.current, { opacity: 0, y: -10, duration: 0.4, delay: 0.6 });
+  });
+  tl.to([canvasRef.current, sakuraCanvasRef.current], { opacity: 0, duration: 1 });
+  tl.to(containerRef.current, { opacity: 0, duration: 0.8, onComplete: () => { tubesAppRef.current?.dispose?.(); onComplete?.(); } });
+};
 
-  return (
-    <div 
-      ref={containerRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center transition-colors duration-1000"
-      style={{ backgroundColor: theme.background }}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      onTouchStart={handleMouseDown}
-      onTouchEnd={handleMouseUp}
-    >
-      {/* WebGL Canvas */}
-      <div className="absolute inset-0 cursor-grab active:cursor-grabbing">
-        <Canvas camera={{ position: [0, 0, 8], fov: 60 }}>
-          <Scene theme={theme} isHolding={isHolding} />
-        </Canvas>
-      </div>
+// ...
 
-      {/* Morning/Evening Toggle */}
-      <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
-        <button
-          onClick={toggleTimeOfDay}
+<Canvas camera={{ position: [0, 0, 8], fov: 60 }}>
+  <Scene theme={theme} isHolding={isHolding} />
+</Canvas>
+
+// ...
           className={`px-4 py-2 font-mono text-xs uppercase tracking-wider border transition-all duration-300 ${
             timeOfDay === 'morning'
               ? 'border-pink-300/50 text-pink-200 bg-pink-500/10 hover:bg-pink-500/20'
@@ -460,6 +445,7 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
             }`}>
               bro, it's loading man, kinda sucks but can't be helped 😌
             </p>
+            <div ref={welcomeRef} className="absolute inset-0 flex items-center justify-center text-white text-2xl md:text-3xl lg:text-4xl tracking-wide pointer-events-none" />
             <div className="flex items-center justify-center gap-2">
               <span className="font-display text-6xl md:text-8xl font-bold text-white">
                 {progress}
