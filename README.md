@@ -223,7 +223,7 @@ CMD ["npm", "run", "preview"]
 ```
 
 ## 🚀 Live Demo
-[https://shivarajnkengannavar.vercel.app](https://shivarajnkengannavar.vercel.app)
+[https://shivarajnkengannavar.vercel.app](https://shivarajnkengannavar-portfolio.vercel.app/)
  
 
 ## 🤝 Contributing
