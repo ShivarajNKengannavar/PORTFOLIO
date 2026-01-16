@@ -50,8 +50,6 @@ const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
     const sakura_point_vsh = 'uniform mat4 uProjection;uniform mat4 uModelview;uniform vec3 uResolution;uniform vec3 uOffset;uniform vec3 uDOF;uniform vec3 uFade;attribute vec3 aPosition;attribute vec3 aEuler;attribute vec2 aMisc;varying vec3 pposition;varying float psize;varying float palpha;varying float pdist;varying vec3 normX;varying vec3 normY;varying vec3 normZ;varying vec3 normal;varying float diffuse;varying float specular;varying float rstop;varying float distancefade;void main(void){vec4 pos=uModelview*vec4(aPosition+uOffset,1.0);gl_Position=uProjection*pos;gl_PointSize=aMisc.x*uProjection[1][1]/-pos.z*uResolution.y*0.5;pposition=pos.xyz;psize=aMisc.x;pdist=length(pos.xyz);palpha=smoothstep(0.0,1.0,(pdist-0.1)/uFade.z);vec3 elrsn=sin(aEuler);vec3 elrcs=cos(aEuler);mat3 rotx=mat3(1.0,0.0,0.0,0.0,elrcs.x,elrsn.x,0.0,-elrsn.x,elrcs.x);mat3 roty=mat3(elrcs.y,0.0,-elrsn.y,0.0,1.0,0.0,elrsn.y,0.0,elrcs.y);mat3 rotz=mat3(elrcs.z,elrsn.z,0.0,-elrsn.z,elrcs.z,0.0,0.0,0.0,1.0);mat3 rotmat=rotx*roty*rotz;normal=rotmat[2];mat3 trrotm=mat3(rotmat[0][0],rotmat[1][0],rotmat[2][0],rotmat[0][1],rotmat[1][1],rotmat[2][1],rotmat[0][2],rotmat[1][2],rotmat[2][2]);normX=trrotm[0];normY=trrotm[1];normZ=trrotm[2];const vec3 lit=vec3(0.6917144638660746,0.6917144638660746,-0.20751433915982237);float tmpdfs=dot(lit,normal);if(tmpdfs<0.0){normal=-normal;tmpdfs=dot(lit,normal);}diffuse=0.4+tmpdfs;vec3 eyev=normalize(-pos.xyz);if(dot(eyev,normal)>0.0){vec3 hv=normalize(eyev+lit);specular=pow(max(dot(hv,normal),0.0),20.0);}else{specular=0.0;}rstop=clamp((abs(pdist-uDOF.x)-uDOF.y)/uDOF.z,0.0,1.0);rstop=pow(rstop,0.5);distancefade=min(1.0,exp((uFade.x-pdist)*0.69315/uFade.y));}';
     const sakura_point_fsh = 'precision highp float;uniform vec3 uDOF;uniform vec3 uFade;const vec3 fadeCol=vec3(0.08,0.03,0.06);varying vec3 pposition;varying float psize;varying float palpha;varying float pdist;varying vec3 normX;varying vec3 normY;varying vec3 normZ;varying vec3 normal;varying float diffuse;varying float specular;varying float rstop;varying float distancefade;float ellipse(vec2 p,vec2 o,vec2 r){vec2 lp=(p-o)/r;return length(lp)-1.0;}void main(void){vec3 p=vec3(gl_PointCoord-vec2(0.5,0.5),0.0)*2.0;vec3 d=vec3(0.0,0.0,-1.0);float nd=normZ.z;if(abs(nd)<0.0001)discard;float np=dot(normZ,p);vec3 tp=p+d*np/nd;vec2 coord=vec2(dot(normX,tp),dot(normY,tp));const float flwrsn=0.258819045102521;const float flwrcs=0.965925826289068;mat2 flwrm=mat2(flwrcs,-flwrsn,flwrsn,flwrcs);vec2 flwrp=vec2(abs(coord.x),coord.y)*flwrm;float r;if(flwrp.x<0.0){r=ellipse(flwrp,vec2(0.065,0.024)*0.5,vec2(0.36,0.96)*0.5);}else{r=ellipse(flwrp,vec2(0.065,0.024)*0.5,vec2(0.58,0.96)*0.5);}if(r>rstop)discard;vec3 col=mix(vec3(1.0,0.8,0.75),vec3(1.0,0.9,0.87),r);float grady=mix(0.0,1.0,pow(coord.y*0.5+0.5,0.35));col*=vec3(1.0,grady,grady);col*=mix(0.8,1.0,pow(abs(coord.x),0.3));col=col*diffuse+specular;col=mix(fadeCol,col,distancefade);float alpha=(rstop>0.001)?(0.5-r/(rstop*2.0)):1.0;alpha=smoothstep(0.0,1.0,alpha)*palpha;gl_FragColor=vec4(col*0.5,alpha);}';
     const fx_common_vsh = 'uniform vec3 uResolution;attribute vec2 aPosition;varying vec2 texCoord;varying vec2 screenCoord;void main(void){gl_Position=vec4(aPosition,0.0,1.0);texCoord=aPosition.xy*0.5+vec2(0.5,0.5);screenCoord=aPosition.xy*vec2(uResolution.z,1.0);}';
-    
-    // REINSTATED ORIGINAL COLORS: Removed my custom purple shift
     const bg_fsh = 'precision highp float;uniform vec2 uTimes;varying vec2 texCoord;varying vec2 screenCoord;void main(void){vec3 col;float c;vec2 tmpv=texCoord*vec2(0.8,1.0)-vec2(0.95,1.0);c=exp(-pow(length(tmpv)*1.8,2.0));gl_FragColor=vec4(mix(vec3(0.02,0.0,0.03),vec3(0.96,0.98,1.0)*1.5,c)*0.5,1.0);}';
     const pp_final_fsh = 'precision highp float;uniform sampler2D uSrc;uniform sampler2D uBloom;uniform vec2 uDelta;varying vec2 texCoord;varying vec2 screenCoord;void main(void){vec4 srccol=texture2D(uSrc,texCoord)*2.0;vec4 bloomcol=texture2D(uBloom,texCoord);vec4 col=srccol+bloomcol*(vec4(1.0)+srccol);col=pow(col,vec4(0.45454545454545));gl_FragColor=vec4(col.rgb,1.0);gl_FragColor.a=1.0;}';
 
@@ -120,7 +118,7 @@ const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
     const bgPrg = createProg(fx_common_vsh, bg_fsh, ['uTimes'], ['aPosition']);
     const finalPrg = createProg(fx_common_vsh, pp_final_fsh, ['uSrc'], ['aPosition']);
 
-    const numFlowers = 2000; // Boosted count to ensure left side is never empty
+    const numFlowers = 2000; 
     const particles = Array.from({length: numFlowers}, () => ({
       pos: [ (Math.random()*2-1)*40, (Math.random()*2-1)*30, (Math.random()*2-1)*30 ],
       vel: [ (Math.random()*2-1)*0.3+0.8, (Math.random()*2-1)*0.2-1.0, (Math.random()*2-1)*0.3+0.5 ],
@@ -153,7 +151,6 @@ const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
         p.euler[1] += p.rot[1] * timeInfo.delta; 
         p.euler[2] += p.rot[2] * timeInfo.delta;
 
-        // FIXED BOUNDARY: Wider horizontal range to cover the left side
         if(p.pos[0] > 40) p.pos[0] = -40;
         if(p.pos[0] < -40) p.pos[0] = 40;
         if(p.pos[1] > 30) p.pos[1] = -30;
@@ -209,17 +206,8 @@ const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
   }, [clicked]);
 
   useEffect(() => {
-    const introAudio = new Audio('/sounds/intro.wav'); 
-    introAudio.volume = 0.15; 
-    audioRef.current = introAudio;
-    
-    const glitchAudio = new Audio('/sounds/glitch.mp3'); 
-    glitchAudio.volume = 0.3; 
-    (window as any).glitchAudio = glitchAudio;
-    
-    // Preload audio but don't play until user interaction
-    introAudio.load();
-    glitchAudio.load();
+    const introAudio = new Audio('/sounds/intro.wav'); introAudio.volume = 0.15; audioRef.current = introAudio;
+    const glitchAudio = new Audio('/sounds/glitch.mp3'); glitchAudio.volume = 0.3; (window as any).glitchAudio = glitchAudio;
   }, []);
 
   useEffect(() => {
@@ -254,33 +242,64 @@ const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
   useEffect(() => {
     if (!buttonRef.current) return;
     const button = buttonRef.current;
-    for (let i = 0; i < 325; i++) {
-      const span = document.createElement('span'); span.style.left = `${i * 2}px`; span.style.transitionDelay = `${Math.random() * 0.5}s`;
+    
+    // Setup button text glitch effect
+    for (let i = 0; i < 600; i++) {
+      const span = document.createElement('span'); 
+      span.style.left = `${i * 2}px`; 
+      span.style.transitionDelay = `${Math.random() * 0.5}s`;
       button.appendChild(span);
     }
+
+    // Intro Animation
     gsap.fromTo(button, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 1.4, ease: 'power4.out' });
+
     const handleMouseEnter = () => {
+      if (clicked) return; // Prevent interaction if clicked
       gsap.to(button, { scale: 1.04, duration: 0.3 });
-      const glitchAudio = (window as any).glitchAudio; if (glitchAudio) { glitchAudio.currentTime = 0; glitchAudio.play().catch(() => {}); }
+      const glitchAudio = (window as any).glitchAudio; 
+      if (glitchAudio) { 
+        glitchAudio.currentTime = 0; 
+        glitchAudio.play().catch(() => {}); 
+      }
     };
-    const handleMouseLeave = () => gsap.to(button, { scale: 1, duration: 0.3 });
-    button.addEventListener('mouseenter', handleMouseEnter); button.addEventListener('mouseleave', handleMouseLeave);
-    return () => { button.removeEventListener('mouseenter', handleMouseEnter); button.removeEventListener('mouseleave', handleMouseLeave); };
-  }, []);
+
+    const handleMouseLeave = () => {
+      if (clicked) return; // Prevent interaction if clicked
+      gsap.to(button, { scale: 1, duration: 0.3 });
+    };
+
+    button.addEventListener('mouseenter', handleMouseEnter); 
+    button.addEventListener('mouseleave', handleMouseLeave);
+    
+    return () => { 
+      button.removeEventListener('mouseenter', handleMouseEnter); 
+      button.removeEventListener('mouseleave', handleMouseLeave); 
+    };
+  }, [clicked]);
 
   const handleClick = () => {
     if (clicked) return;
     setClicked(true);
-    const glitchAudio = (window as any).glitchAudio; if (glitchAudio) { glitchAudio.pause(); glitchAudio.currentTime = 0; }
     audioRef.current?.play().catch(() => {});
+    
     const tl = gsap.timeline();
-    tl.to(buttonRef.current, { opacity: 0, scale: 0.95, duration: 0.6 });
+    
+    // Disable interactions immediately
+    if (buttonRef.current) {
+        buttonRef.current.style.pointerEvents = 'none';
+    }
+
+    // 1. FIX: Use autoAlpha: 0 to ensure it becomes visibility: hidden after opacity: 0
+    tl.to(buttonRef.current, { autoAlpha: 0, scale: 0.95, duration: 0.6 });
     if (hintRef.current) tl.to(hintRef.current, { opacity: 0, duration: 0.4 }, "-=0.4");
+    
     WELCOME_TEXTS.forEach((text) => {
       tl.set(welcomeRef.current, { textContent: text });
       tl.fromTo(welcomeRef.current, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 });
       tl.to(welcomeRef.current, { opacity: 0, y: -10, duration: 0.4, delay: 0.6 });
     });
+    
     tl.to([canvasRef.current, sakuraCanvasRef.current], { opacity: 0, duration: 1 });
     tl.to(containerRef.current, { opacity: 0, duration: 0.8, onComplete: () => { tubesAppRef.current?.dispose?.(); onComplete?.(); } });
   };
@@ -298,7 +317,12 @@ const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
         className={`fixed inset-0 z-[1] mix-blend-screen transition-opacity duration-1000 ${clicked ? 'opacity-0' : 'opacity-70'}`} 
       />
       <div className="relative z-10 text-center">
-        <button ref={buttonRef} onClick={handleClick} className="btn">
+        <button 
+            ref={buttonRef} 
+            onClick={handleClick} 
+            className="btn"
+            disabled={clicked} 
+        >
           SHIVARAJ N KENGANNAVAR
         </button>
         {!clicked && (
@@ -306,7 +330,10 @@ const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
             CLICK TO ENTER
           </p>
         )}
-        <div ref={welcomeRef} className="absolute inset-0 flex items-center justify-center text-white text-xl tracking-wide pointer-events-none" />
+        <div 
+            ref={welcomeRef} 
+            className="absolute inset-0 flex items-center justify-center text-white text-4xl md:text-6xl lg:text-7xl font-bold tracking-wide pointer-events-none drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]" 
+        />
       </div>
       <button 
         ref={skipRef} 
