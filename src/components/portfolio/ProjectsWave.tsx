@@ -71,7 +71,7 @@ const projects: Project[] = [
     description: "Intelligent resume screening using NLP to match talents with opportunities.",
     techStack: ["LangChain", "ChromaDB", "React"],
     gradient: "from-accent via-lavender to-cerulean",
-    sourceLink: "https://github.com/ShivarajNKengannavar?tab=repositories",
+    sourceLink: "https://github.com/ShivarajNKengannavar/hiREsume-AI---Complete-Career-Optimization-Platform",
     image: "https://images.unsplash.com/photo-1653038417332-6db0ff9d4bfb?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "AI/ML",
     color: "#ff6a2a"
@@ -83,7 +83,7 @@ const projects: Project[] = [
     description: "ML solution optimizing fertilizer recommendations for healthier crops.",
     techStack: ["Scikit-learn", "Pandas", "Flask"],
     gradient: "from-rose via-lavender to-accent",
-    sourceLink: "https://github.com/ShivarajNKengannavar?tab=repositoriesr",
+    sourceLink: "https://github.com/ShivarajNKengannavar/Plant-Advisory-and-Disease-Detection-System",
     image: "https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Agriculture",
     color: "#ff6a2a"
@@ -119,7 +119,7 @@ const projects: Project[] = [
     description: "Healthcare assistant leveraging ML to bridge symptom recognition and clinical guidance.",
     techStack: ["Scikit-Learn", "Flask", "Pandas"],
     gradient: "from-purple-600 to-pink-500",
-    sourceLink: "https://github.com/ShivarajNKengannavar?tab=repositories",
+    sourceLink: "https://github.com/ShivarajNKengannavar/VAIDYA---Disease-Prediction-Drug-Recommendation",
     image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Healthcare",
     color: "#ff6a2a"
