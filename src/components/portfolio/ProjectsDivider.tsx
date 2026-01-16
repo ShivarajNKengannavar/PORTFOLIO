@@ -17,7 +17,7 @@ export default function ProjectsDivider() {
     if (!section || !text) return;
 
     // 1. Initial State: Start with FIRST word off-screen to the right
-    gsap.set(text, { x: "100vw" });
+    gsap.set(text, { x: "70vw" });
 
     // 2. Calculate distance to center the LAST word
     // We want the total movement to be: 
@@ -39,7 +39,7 @@ export default function ProjectsDivider() {
         trigger: section,
         start: "top top", 
         end: "+=400%",    // Increased for slower movement
-        scrub: 1,         // Smooth catch-up effect
+        scrub: 3,         // Smooth catch-up effect
         pin: true,        // Pin the section in place
         anticipatePin: 1,
         invalidateOnRefresh: true, // Recalculate if the window resizes
