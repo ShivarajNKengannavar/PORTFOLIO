@@ -52,8 +52,8 @@ const SkillsSection = () => {
       }
 
       const localIcons: Record<string, string> = {
-        'visualstudiocode': '/src/assets/skills/visualstudiocode.svg',
-        'java': '/src/assets/skills/java.svg'
+        'visualstudiocode': '/assets/skills/visualstudiocode.svg',
+        'java': '/assets/skills/java.svg'
       };
       
       const imgUrl = localIcons[skill] || cdnUrl;
