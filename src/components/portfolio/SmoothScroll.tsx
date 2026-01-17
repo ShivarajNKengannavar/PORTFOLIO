@@ -13,13 +13,13 @@ const SmoothScroll = ({ children }: SmoothScrollProps) => {
     const isMobile = window.innerWidth <= 768;
     
     const lenis = new Lenis({
-      duration: isMobile ? 0.6 : 1.2, // Much faster on mobile
+      duration: isMobile ? 1 : 0.8, // User specified: 1s mobile, 0.8s desktop
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: isMobile ? 1.2 : 1, // More responsive on mobile
-      touchMultiplier: isMobile ? 1.0 : 2, // Less floaty on mobile
+      wheelMultiplier: isMobile ? 1 : 1, // User specified: 1x for both
+      touchMultiplier: isMobile ? 1.5 : 1, // User specified: 1.5x mobile, 1x desktop
       infinite: false,
       // Mobile-specific optimizations
       syncTouch: true, // Better touch synchronization
@@ -70,13 +70,13 @@ const SmoothScroll = ({ children }: SmoothScrollProps) => {
         lenisRef.current.destroy();
         
         const newLenis = new Lenis({
-          duration: isMobile ? 0.6 : 1.2,
+          duration: isMobile ? 1 : 0.8,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           orientation: 'vertical',
           gestureOrientation: 'vertical',
           smoothWheel: true,
-          wheelMultiplier: isMobile ? 1.2 : 1,
-          touchMultiplier: isMobile ? 1.0 : 2,
+          wheelMultiplier: isMobile ? 1 : 1,
+          touchMultiplier: isMobile ? 1.5 : 1,
           infinite: false,
           syncTouch: true,
           autoResize: true,
