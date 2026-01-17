@@ -101,7 +101,7 @@ export function IconCloud({ images, skills, activeSkills }: IconCloudProps) {
                     src={displayImage}
                     alt={`Skill ${uniqueFilteredSkills[index]}`}
                     onError={() => handleImageError(index)}
-                    className={`rounded-lg shadow-lg cursor-pointer transition-all duration-300 ${
+                    className={`rounded-lg shadow-lg transition-all duration-300 ${
                       hoveredIndex === index ? 'w-16 h-16 p-3 z-50' : 'w-10 h-10 p-2'
                     } ${hasError ? 'bg-gradient-to-br from-primary/20 to-accent/20' : 'bg-white'}`}
                     style={{

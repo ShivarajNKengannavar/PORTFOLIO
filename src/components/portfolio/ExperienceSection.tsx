@@ -67,7 +67,7 @@ export default function ExperienceSection() {
           start: "top top",
           end: "+=3000",
           pin: true,
-          scrub: 1,
+          scrub: 0.5, // Reduced for better performance
           invalidateOnRefresh: true,
         },
       });
@@ -135,7 +135,7 @@ export default function ExperienceSection() {
 function Card({ experience, i }: { experience: any; i: number }) {
   return (
     <div 
-      className="flex-shrink-0 group relative h-[55vh] md:h-[450px] w-[85vw] md:w-[600px] rounded-3xl overflow-hidden transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl cursor-pointer border border-white/10"
+      className="flex-shrink-0 group relative h-[55vh] md:h-[450px] w-[85vw] md:w-[600px] rounded-3xl overflow-hidden transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl border border-white/10"
       style={{ backgroundColor: experience.color }} 
     >
         {/* IMAGE SIDE (Right 50%) - Removed mask-linear-fade */}

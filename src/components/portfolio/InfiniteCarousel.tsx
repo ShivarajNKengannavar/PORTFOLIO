@@ -41,7 +41,7 @@ const InfiniteCarousel = () => {
           {[...images, ...images].map((src, index) => (
             <div
               key={index}
-              className="relative w-[300px] h-[400px] flex-shrink-0 group cursor-pointer"
+              className="relative w-[300px] h-[400px] flex-shrink-0 group"
             >
               <div className="w-full h-full rounded-2xl border border-white/10 overflow-hidden relative">
                 <img

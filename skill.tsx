@@ -448,7 +448,7 @@ const Skills = () => {
                             <TooltipTrigger asChild>
                               <motion.div 
                                 whileHover={{ scale: 1.2 }}
-                                className="w-14 h-14 rounded-full backdrop-blur-md border flex items-center justify-center transition-all duration-300 cursor-pointer"
+                                className="w-14 h-14 rounded-full backdrop-blur-md border flex items-center justify-center transition-all duration-300"
                                 style={{
                                   backgroundColor: currentCategory.color === 'primary' 
                                     ? 'hsl(var(--primary) / 0.1)' 

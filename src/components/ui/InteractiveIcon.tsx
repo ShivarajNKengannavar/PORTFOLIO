@@ -70,7 +70,6 @@ const InteractiveIcon = ({
           ${sizeClasses[size]}
           rounded-full
           flex items-center justify-center
-          cursor-pointer
           transition-all duration-300
           bg-white/10
           border border-white/20

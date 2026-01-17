@@ -1,5 +1,70 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
+/* Basic performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /* Smooth font rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent text selection during scroll */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Optimize images and videos */
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Optimize animated elements */
+.animated-element {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Enable momentum scrolling on iOS */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  html, body {
+    /* Optimize for mobile scrolling */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    /* Reduce paint on mobile */
+    will-change: scroll-position;
+    /* Smooth touch scrolling */
+    scroll-behavior: smooth;
+  }
+  
+  /* Optimize touch targets */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    /* Prevent zoom on double tap */
+    touch-action: manipulation;
+  }
+  
+  /* Optimize images for mobile */
+  img, video {
+    max-width: 100%;
+    height: auto;
+    /* Prevent layout shift */
+    contain: layout;
+  }
+}
+
 @font-face {
   font-family: "Swear-Display-Black-Italic";
   src: url("/fonts/Swear-Display-Black-Italic.otf") format("opentype");
@@ -22,7 +87,6 @@
   text-decoration: none;
   overflow: hidden;
   border: none;
-  cursor: pointer;
   user-select: none;
   transition: color 0.3s ease, letter-spacing 0.3s ease;
   min-width: 650px;
@@ -82,7 +146,6 @@
   color: rgba(255,255,255,0.45);
   background: transparent;
   border: 1px solid rgba(255,255,255,0.1);
-  cursor: pointer;
   opacity: 0;
   transition: all 0.3s ease;
   padding: 8px 16px;
@@ -859,19 +922,16 @@ body {
   height: calc((1vw + 1vh) * 12);
   border-radius: 1rem;
   overflow: hidden;
-  cursor: pointer;
   
   /* Visual state - grayscale by default */
-  filter: grayscale(1) brightness(.5);
-  
-  /* THE KEY: Smooth transitions for wave effect */
   transition:
-    transform 1.25s cubic-bezier(.1, .7, 0, 1),
-    filter 3s cubic-bezier(.1, .7, 0, 1),
-    width 1.25s cubic-bezier(.1, .7, 0, 1);
+    transform 0.8s cubic-bezier(.1, .7, 0, 1),
+    filter 1.5s cubic-bezier(.1, .7, 0, 1),
+    width 0.8s cubic-bezier(.1, .7, 0, 1);
   
   transform: translateZ(0);
-  will-change: transform, filter, rotateY, width;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Card background */
@@ -1415,7 +1475,6 @@ body {
   display: grid !important;
   place-content: center !important;
   box-shadow: rgba(5, 71, 17, 0.5) 0px 7px 5px -5px !important;
-  cursor: pointer !important;
 }
 
 .parent .bottom .social-buttons-container .social-button a {

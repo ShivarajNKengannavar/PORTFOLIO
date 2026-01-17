@@ -3,7 +3,7 @@ import React from "react";
 
 function ButtonCreativeRight() {
   return (
-    <div className="group relative cursor-pointer p-2 w-32 border bg-white rounded-full overflow-hidden text-black text-center font-semibold transition-all duration-300 hover:bg-black hover:text-white">
+    <div className="group relative p-2 w-32 border bg-white rounded-full overflow-hidden text-black text-center font-semibold transition-all duration-300 hover:bg-black hover:text-white">
       <span className="translate-x-1 group-hover:translate-x-12 group-hover:opacity-0 transition-all duration-300 inline-block">
         Resume
       </span>

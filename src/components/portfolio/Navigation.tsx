@@ -76,8 +76,6 @@ const Navigation = () => {
       entries.forEach(entry => {
         if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
           const sectionId = entry.target.id;
-          console.log('Intersection Observer detected:', sectionId, 'ratio:', entry.intersectionRatio);
-          console.log('Setting active section to:', sectionId);
           setActiveSection(sectionId);
         }
       });
@@ -110,9 +108,9 @@ const Navigation = () => {
   const scrollToSection = (href: string) => {
   if (href === "#hire-me") {
     // Open email client with pre-filled message
-    const email = "gagan@example.com"; // Replace with your actual email
+    const email = "shivarajnkengannavar@gmail.com"; // Replace with your actual email
     const subject = "Hiring Inquiry - Portfolio Contact";
-    const body = `Hi Gagan,
+    const body = `Hi Shivaraj,
 
 I came across your portfolio and I'm interested in discussing a potential opportunity.
 
@@ -159,7 +157,7 @@ Best regards`;
           whileHover={{ scale: 1.05, rotate: 5 }}
           whileTap={{ scale: 0.95 }}
           onHoverStart={playHoverSound}
-          className="font-serif text-2xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent cursor-pointer tracking-wide"
+          className="font-serif text-2xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent tracking-wide"
           style={{
             textShadow: "0 0 30px rgba(255,140,60,0.3)",
           }}

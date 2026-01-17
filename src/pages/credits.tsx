@@ -78,7 +78,7 @@ export default function CreditsPage() {
             <div 
               key={idx} 
               onClick={handleLineTrigger}
-              className="group flex flex-col items-center cursor-pointer transition-transform duration-500 hover:scale-110"
+              className="group flex flex-col items-center transition-transform duration-500 hover:scale-110"
             >
               <span className="text-amber-500/60 text-[10px] tracking-[0.6em] mb-2 uppercase">{item.role}</span>
               <span className="text-white text-3xl font-light tracking-[0.2em] group-hover:text-amber-200 transition-colors">
