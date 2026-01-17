@@ -48,7 +48,7 @@ const AboutSection = () => {
             <div className="h-4 w-px bg-orange-400/30"></div>
             <div className="flex items-center gap-2">
               <span className="text-orange-300 text-sm">Graduating</span>
-              <span className="text-white font-semibold text-sm">July 2026</span>
+              <span className="text-white font-semibold text-sm">2026</span>
             </div>
           </motion.div>
         </motion.div>
