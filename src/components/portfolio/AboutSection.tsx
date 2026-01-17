@@ -28,6 +28,29 @@ const AboutSection = () => {
           <h2 className="font-bodoni italic font-bold text-[clamp(2.5rem,7vw,4.5rem)] tracking-tight leading-none mb-4">
             About <span className="aurora-text">Me</span>
           </h2>
+          
+          {/* Academic Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-orange-500/20 to-orange-600/20 border border-orange-400/30 rounded-full backdrop-blur-sm"
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+              <span className="text-orange-300 font-semibold text-sm">B.Tech CSE</span>
+            </div>
+            <div className="h-4 w-px bg-orange-400/30"></div>
+            <div className="flex items-center gap-2">
+              <span className="text-white font-bold text-lg">8.76</span>
+              <span className="text-orange-300 text-sm font-medium">CGPA</span>
+            </div>
+            <div className="h-4 w-px bg-orange-400/30"></div>
+            <div className="flex items-center gap-2">
+              <span className="text-orange-300 text-sm">Graduating</span>
+              <span className="text-white font-semibold text-sm">2026</span>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Unified Content Container */}
