@@ -173,6 +173,7 @@ export default function HeroSection() {
     // Touch movement handlers for mobile
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
+        e.preventDefault();
         touch.current.startX = e.touches[0].clientX;
         touch.current.startY = e.touches[0].clientY;
       }
@@ -180,12 +181,13 @@ export default function HeroSection() {
     
     const onTouchMove = (e: TouchEvent) => {
       if (e.touches.length === 1) {
+        e.preventDefault();
         const deltaX = e.touches[0].clientX - touch.current.startX;
         const deltaY = e.touches[0].clientY - touch.current.startY;
         
-        // Convert touch movement to normalized coordinates
-        touch.current.x = (deltaX / window.innerWidth) * 2;
-        touch.current.y = -(deltaY / window.innerHeight) * 2;
+        // Convert touch movement to normalized coordinates with better sensitivity
+        touch.current.x = (deltaX / window.innerWidth) * 3; // Increased sensitivity
+        touch.current.y = -(deltaY / window.innerHeight) * 3;
       }
     };
     
@@ -196,9 +198,10 @@ export default function HeroSection() {
     
     // Add appropriate event listeners
     if (isMobileDevice) {
-      window.addEventListener('touchstart', onTouchStart);
-      window.addEventListener('touchmove', onTouchMove);
-      window.addEventListener('touchend', onTouchEnd);
+      const canvas = renderer.domElement;
+      canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+      canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+      canvas.addEventListener('touchend', onTouchEnd, { passive: false });
     } else {
       window.addEventListener('mousemove', onGlobalMouseMove);
     }
@@ -209,13 +212,14 @@ export default function HeroSection() {
       // 3. MOUSE/TOUCH ROTATION LOGIC
       const inputX = isMobileDevice ? touch.current.x : mouse.current.x;
       const inputY = isMobileDevice ? touch.current.y : mouse.current.y;
-      const sensitivity = isMobileDevice ? 0.5 : 1; // Reduce sensitivity on mobile
+      const sensitivity = isMobileDevice ? 0.8 : 1; // Increased mobile sensitivity
+      const smoothing = isMobileDevice ? 0.06 : 0.04; // Smoother animation on mobile
       
       targetRotation.current.y = (inputX * Math.PI * sensitivity) + 0.5; 
       targetRotation.current.x = (-inputY * Math.PI * 0.5 * sensitivity) - 0.5;
 
-      currentRotation.current.y += (targetRotation.current.y - currentRotation.current.y) * 0.04;
-      currentRotation.current.x += (targetRotation.current.x - currentRotation.current.x) * 0.04;
+      currentRotation.current.y += (targetRotation.current.y - currentRotation.current.y) * smoothing;
+      currentRotation.current.x += (targetRotation.current.x - currentRotation.current.x) * smoothing;
 
       city.rotation.y = currentRotation.current.y;
       city.rotation.x = currentRotation.current.x;
@@ -242,9 +246,10 @@ export default function HeroSection() {
     return () => {
       window.removeEventListener('resize', handleResize);
       if (isMobileDevice) {
-        window.removeEventListener('touchstart', onTouchStart);
-        window.removeEventListener('touchmove', onTouchMove);
-        window.removeEventListener('touchend', onTouchEnd);
+        const canvas = renderer.domElement;
+        canvas.removeEventListener('touchstart', onTouchStart);
+        canvas.removeEventListener('touchmove', onTouchMove);
+        canvas.removeEventListener('touchend', onTouchEnd);
       } else {
         window.removeEventListener('mousemove', onGlobalMouseMove);
       }
@@ -259,7 +264,10 @@ export default function HeroSection() {
       <div 
         ref={cityContainerRef} 
         className="absolute inset-0 z-0 opacity-80" 
-        style={{ pointerEvents: 'none' }}
+        style={{ 
+          pointerEvents: isMobile.current || isTablet.current ? 'auto' : 'none',
+          touchAction: 'none'
+        }}
       />
 
       <div className="absolute inset-0 pointer-events-none" style={{
