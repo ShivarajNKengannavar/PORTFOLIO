@@ -27,25 +27,13 @@ const isTabletDevice = () => {
 export default function HeroSection() {
   const cityContainerRef = useRef<HTMLDivElement>(null);
   const mouse = useRef({ x: 0, y: 0 });
-  const touch = useRef({ 
-    x: 0, 
-    y: 0, 
-    startX: 0, 
-    startY: 0,
-    lastX: 0,
-    lastY: 0,
-    velocityX: 0,
-    velocityY: 0,
-    lastTime: 0,
-    isSwiping: false
-  });
+  const touch = useRef({ x: 0, y: 0, startX: 0, startY: 0 });
   const isMobile = useRef(isMobileDevice());
   const isTablet = useRef(isTabletDevice());
   
   // 1. SET INITIAL TARGET ROTATION (Isometric angle from your images)
   const targetRotation = useRef({ x: -0.5, y: 0.5 }); 
   const currentRotation = useRef({ x: -0.5, y: 0.5 });
-  const momentumRotation = useRef({ x: 0, y: 0 });
 
   const { playClickSound, playHoverSound, playSuccessSound } = useSoundEffects();
 
@@ -182,65 +170,31 @@ export default function HeroSection() {
       }
     };
     
-    // Touch movement handlers for mobile with swipe physics
+    // Simple touch movement handlers for mobile
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
         e.preventDefault();
-        const currentTime = Date.now();
-        const touchPoint = e.touches[0];
-        
-        touch.current.startX = touchPoint.clientX;
-        touch.current.startY = touchPoint.clientY;
-        touch.current.lastX = touchPoint.clientX;
-        touch.current.lastY = touchPoint.clientY;
-        touch.current.lastTime = currentTime;
-        touch.current.velocityX = 0;
-        touch.current.velocityY = 0;
-        touch.current.isSwiping = true;
-        
-        // Reset momentum when starting new touch
-        momentumRotation.current.x = 0;
-        momentumRotation.current.y = 0;
+        touch.current.startX = e.touches[0].clientX;
+        touch.current.startY = e.touches[0].clientY;
       }
     };
     
     const onTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 1 && touch.current.isSwiping) {
+      if (e.touches.length === 1) {
         e.preventDefault();
-        const currentTime = Date.now();
-        const touchPoint = e.touches[0];
+        const deltaX = e.touches[0].clientX - touch.current.startX;
+        const deltaY = e.touches[0].clientY - touch.current.startY;
         
-        // Calculate velocity
-        const deltaTime = currentTime - touch.current.lastTime;
-        if (deltaTime > 0) {
-          touch.current.velocityX = (touchPoint.clientX - touch.current.lastX) / deltaTime;
-          touch.current.velocityY = (touchPoint.clientY - touch.current.lastY) / deltaTime;
-        }
-        
-        // Update position based on swipe (not drag from start)
-        const deltaX = touchPoint.clientX - touch.current.lastX;
-        const deltaY = touchPoint.clientY - touch.current.lastY;
-        
-        touch.current.x += (deltaX / window.innerWidth) * 4; // Accumulative swipe
-        touch.current.y += -(deltaY / window.innerHeight) * 4;
-        
-        touch.current.lastX = touchPoint.clientX;
-        touch.current.lastY = touchPoint.clientY;
-        touch.current.lastTime = currentTime;
+        // Direct touch to rotation mapping
+        touch.current.x = (deltaX / window.innerWidth) * 6;
+        touch.current.y = -(deltaY / window.innerHeight) * 6;
       }
     };
     
     const onTouchEnd = () => {
-      if (touch.current.isSwiping) {
-        // Apply momentum based on velocity
-        momentumRotation.current.x = touch.current.velocityY * 50; // Y velocity affects X rotation
-        momentumRotation.current.y = touch.current.velocityX * 50; // X velocity affects Y rotation
-        
-        // Reset touch position but keep momentum
-        touch.current.x = 0;
-        touch.current.y = 0;
-        touch.current.isSwiping = false;
-      }
+      // Keep last position, don't reset to 0
+      // touch.current.x = 0;
+      // touch.current.y = 0;
     };
     
     // Add appropriate event listeners
@@ -256,28 +210,11 @@ export default function HeroSection() {
     const animate = () => {
       const id = requestAnimationFrame(animate);
       
-      // 3. MOUSE/TOUCH ROTATION LOGIC WITH MOMENTUM
-      let inputX, inputY;
-      
-      if (isMobileDevice) {
-        // Use swipe input + momentum
-        inputX = touch.current.x + momentumRotation.current.y;
-        inputY = touch.current.y + momentumRotation.current.x;
-        
-        // Apply friction to momentum
-        momentumRotation.current.x *= 0.95;
-        momentumRotation.current.y *= 0.95;
-        
-        // Stop tiny movements
-        if (Math.abs(momentumRotation.current.x) < 0.001) momentumRotation.current.x = 0;
-        if (Math.abs(momentumRotation.current.y) < 0.001) momentumRotation.current.y = 0;
-      } else {
-        inputX = mouse.current.x;
-        inputY = mouse.current.y;
-      }
-      
-      const sensitivity = isMobileDevice ? 0.6 : 1;
-      const smoothing = isMobileDevice ? 0.08 : 0.04;
+      // 3. SIMPLE MOUSE/TOUCH ROTATION LOGIC
+      const inputX = isMobileDevice ? touch.current.x : mouse.current.x;
+      const inputY = isMobileDevice ? touch.current.y : mouse.current.y;
+      const sensitivity = isMobileDevice ? 1.2 : 1;
+      const smoothing = isMobileDevice ? 0.1 : 0.04;
       
       targetRotation.current.y = (inputX * Math.PI * sensitivity) + 0.5; 
       targetRotation.current.x = (-inputY * Math.PI * 0.5 * sensitivity) - 0.5;
