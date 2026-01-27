@@ -6,8 +6,8 @@ import { CustomEase } from "gsap/CustomEase";
 
 // Simple Interactive Grid Pattern Component
 const InteractiveGridPattern = ({ className }: { className?: string }) => {
-  // Use a more professional, softer orange color
-  const projectOrange = "#ff8c4b"; // Softer, more professional orange
+  // Use the same orange color from projects
+  const projectOrange = "#ff6a2a";
   
   return (
     <div className={`absolute inset-0 ${className}`}>
@@ -62,7 +62,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/ShivarajNKengannavar?tab=repositories",
     image: "https://images.unsplash.com/photo-1614064548237-096f735f344f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Security",
-    color: "#ff8c4b"
+    color: "#ff6a2a"
   },
   {
     id: 2,
@@ -74,7 +74,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/ShivarajNKengannavar/hiREsume-AI---Complete-Career-Optimization-Platform",
     image: "https://images.unsplash.com/photo-1653038417332-6db0ff9d4bfb?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "AI/ML",
-    color: "#ff8c4b"
+    color: "#ff6a2a"
   },
   {
     id: 3,
@@ -86,7 +86,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/ShivarajNKengannavar/Plant-Advisory-and-Disease-Detection-System",
     image: "https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Agriculture",
-    color: "#ff8c4b"
+    color: "#ff6a2a"
   },
   {
     id: 4,
@@ -98,7 +98,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/ShivarajNKengannavar/ONLINE-NURSERY-MANAGEMENT-SYSTEM",
     image: "https://images.unsplash.com/photo-1745601690159-19501e01b816?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "E-Commerce",
-    color: "#ff8c4b"
+    color: "#ff6a2a"
   },
   {
     id: 5,
@@ -110,7 +110,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/ShivarajNKengannavar/REAL-TIME-FIRE-DETECTION-AND-SEGMENTATION",
     image: "https://images.unsplash.com/photo-1608723724615-d04aec3d1fa7?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Computer Vision",
-    color: "#ff8c4b"
+    color: "#ff6a2a"
   },
   {
     id: 6,
@@ -122,7 +122,7 @@ const projects: Project[] = [
     sourceLink: "https://github.com/ShivarajNKengannavar/VAIDYA---Disease-Prediction-Drug-Recommendation",
     image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Healthcare",
-    color: "#ff8c4b"
+    color: "#ff6a2a"
   },
 ];
 
@@ -213,16 +213,16 @@ const ProjectsWave = () => {
     <section id="projects" className="relative z-30 w-full min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
       {/* ORANGE BLOCK CONTAINER - Contains everything */}
       <div 
-        className="relative w-full min-h-screen p-4 sm:p-6 lg:p-8"
-        style={{ backgroundColor: '#ff8c4b' }} // Softer, more professional orange
+        className="relative w-full min-h-screen p-8"
+        style={{ backgroundColor: '#ff6a2a' }}
       >
         {/* White grid overlay inside orange block - Mobile optimized */}
         <div 
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px)
+              linear-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px)
             `,
             backgroundSize: '20px 20px',
             clipPath: 'polygon(0% 25px, 100% 25px, 100% calc(100% - 25px), 0% calc(100% - 25px))'
@@ -233,7 +233,7 @@ const ProjectsWave = () => {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px)
+              linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px)
             `,
             backgroundSize: '20px 20px',
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 25px, 0% 25px, 0% calc(100% - 25px), 100% calc(100% - 25px), 100% 100%, 0% 100%)'
@@ -242,21 +242,21 @@ const ProjectsWave = () => {
         
         {/* Subtle overlay for depth - Mobile optimized */}
         <div className="absolute inset-0 animate-pulse" style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25) 0%, transparent 50%)'
+          background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%)'
         }} />
         
         {/* ================= COMPACT TITLE - Mobile optimized ================= */}
-        <div className="relative z-20 py-2 sm:py-4 px-4 sm:px-6">
+        <div className="relative z-20 py-4 px-4 sm:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-black mb-2 sm:mb-3 tracking-tight">
+            <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-black mb-3 tracking-tight">
               Featured Projects
             </h2>
-            <div className="w-12 h-1 sm:w-16 bg-white mx-auto mb-2 sm:mb-3"></div>
+            <div className="w-12 h-1 sm:w-16 bg-white mx-auto mb-3"></div>
             <p className="text-white/80 text-sm sm:text-base font-light leading-relaxed px-4">
               A curated collection of innovative solutions and creative work
             </p>
@@ -264,7 +264,7 @@ const ProjectsWave = () => {
         </div>
 
         {/* ================= DRAG INSTRUCTION - Mobile optimized ================= */}
-        <div className="relative z-20 py-1 sm:py-2 px-4 sm:px-6">
+        <div className="relative z-20 py-2 px-4 sm:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -281,10 +281,10 @@ const ProjectsWave = () => {
         </div>
 
         {/* ================= STACKED PROJECTS SECTION - Mobile optimized ================= */}
-        <div className="relative z-20 px-4 sm:px-6 pb-4 sm:pb-6">
+        <div className="relative z-20 px-4 sm:px-6 pb-8">
           <div className="max-w-7xl mx-auto relative">
             {/* Stacked Projects Container */}
-            <div className="relative w-full h-[300px] sm:h-[350px] md:h-[400px] flex items-center justify-center">
+            <div className="relative w-full h-[350px] sm:h-[400px] flex items-center justify-center">
               {projects.map((project, index) => (
                 <motion.div
                   key={project.id}
@@ -294,7 +294,7 @@ const ProjectsWave = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="absolute w-[240px] sm:w-[260px] md:w-[280px] group cursor-grab active:cursor-grabbing shadow-2xl"
+                  className="absolute w-[260px] sm:w-[280px] group cursor-grab active:cursor-grabbing shadow-2xl"
                   style={{
                     // Stack cards on top of each other with slight offset
                     top: `${index * 2}px`,
@@ -417,30 +417,29 @@ const ProjectsWave = () => {
         </div>
 
         {/* ================= CALL TO ACTION SECTION - Mobile optimized ================= */}
-        <div className="relative z-20 py-6 sm:py-8 lg:py-12 px-4 sm:px-6">
+        <div className="relative z-20 py-12 sm:py-16 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="font-sans text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-white px-4">
+              <h3 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white px-4">
                 Many More To Discover
               </h3>
-              <p className="text-white/80 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 px-4">
+              <p className="text-white/80 text-base sm:text-lg mb-8 px-4">
                 Explore my complete collection of innovative projects
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
                 <a 
                   href="https://github.com/ShivarajNKengannavar"
                   target="_blank"
-                  className="inline-flex items-center gap-2 px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 bg-white text-orange-600 font-semibold rounded-lg transition-colors duration-200 hover:scale-105"
+                  className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 bg-white text-orange-600 font-semibold rounded-lg transition-colors duration-200 hover:scale-105"
                 >
-                  <Github size={18} className="sm:hidden" />
-                  <Github size={20} className="hidden sm:block" />
+                  <Github size={18} sm:size={20} />
                   See GitHub
                 </a>
-                <button className="px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold rounded-lg transition-colors duration-200">
+                <button className="px-6 sm:px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold rounded-lg transition-colors duration-200">
                   Discover More
                 </button>
               </div>
