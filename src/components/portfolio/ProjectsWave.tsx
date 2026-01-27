@@ -54,12 +54,12 @@ interface Project {
 const projects: Project[] = [
   {
     id: 1,
-    title: "StegoShield",
+    title: "SecureStego",
     subtitle: "Multi-Media Steganography Suite",
     description: "A steganography solution concealing secrets within images, audio, and video with AES-256 encryption.",
     techStack: ["Python", "Flask", "React"],
     gradient: "from-lavender via-accent to-rose",
-    sourceLink: "https://github.com/ShivarajNKengannavar/StegoShield",
+    sourceLink: "https://github.com/ShivarajNKengannavar?tab=repositories",
     image: "https://images.unsplash.com/photo-1614064548237-096f735f344f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "Security",
     color: "#ff6a2a"
@@ -210,69 +210,69 @@ const ProjectsWave = () => {
   };
 
   return (
-    <section id="projects" className="relative w-full min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
+    <section id="projects" className="relative z-30 w-full min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
       {/* ORANGE BLOCK CONTAINER - Contains everything */}
       <div 
         className="relative w-full min-h-screen p-8"
         style={{ backgroundColor: '#ff6a2a' }}
       >
-        {/* White grid overlay inside orange block */}
+        {/* White grid overlay inside orange block - Mobile optimized */}
         <div 
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px)
+              linear-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px)
             `,
-            backgroundSize: '25px 25px',
+            backgroundSize: '20px 20px',
             clipPath: 'polygon(0% 25px, 100% 25px, 100% calc(100% - 25px), 0% calc(100% - 25px))'
           }}
         />
-        {/* Vertical lines only at top and bottom edges */}
+        {/* Vertical lines only at top and bottom edges - Mobile optimized */}
         <div 
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px)
+              linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px)
             `,
-            backgroundSize: '25px 25px',
+            backgroundSize: '20px 20px',
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 25px, 0% 25px, 0% calc(100% - 25px), 100% calc(100% - 25px), 100% 100%, 0% 100%)'
           }}
         />
         
-        {/* Subtle overlay for depth */}
+        {/* Subtle overlay for depth - Mobile optimized */}
         <div className="absolute inset-0 animate-pulse" style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%)'
+          background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%)'
         }} />
         
-        {/* ================= COMPACT TITLE ================= */}
-        <div className="relative z-20 py-4 px-6">
+        {/* ================= COMPACT TITLE - Mobile optimized ================= */}
+        <div className="relative z-20 py-4 px-4 sm:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h2 className="font-sans text-3xl md:text-4xl font-black mb-3 tracking-tight">
+            <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-black mb-3 tracking-tight">
               Featured Projects
             </h2>
-            <div className="w-16 h-1 bg-white mx-auto mb-3"></div>
-            <p className="text-white/80 text-sm md:text-base font-light leading-relaxed">
+            <div className="w-12 h-1 sm:w-16 bg-white mx-auto mb-3"></div>
+            <p className="text-white/80 text-sm sm:text-base font-light leading-relaxed px-4">
               A curated collection of innovative solutions and creative work
             </p>
           </motion.div>
         </div>
 
-        {/* ================= DRAG INSTRUCTION ================= */}
-        <div className="relative z-20 py-2 px-6">
+        {/* ================= DRAG INSTRUCTION - Mobile optimized ================= */}
+        <div className="relative z-20 py-2 px-4 sm:px-6">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="max-w-2xl mx-auto text-center"
           >
-            <p className="text-white/60 text-xs md:text-sm font-medium flex items-center justify-center gap-2">
-              <svg className="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <p className="text-white/60 text-xs sm:text-sm font-medium flex items-center justify-center gap-2 px-4">
+              <svg className="w-3 h-3 sm:w-4 sm:h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 11-3 0m6 0a1.5 1.5 0 11-3 0m-3 6a1.5 1.5 0 11-3 0m6 0a1.5 1.5 0 01-3 0M12 10.5a1.5 1.5 0 11-3 0m6 0a1.5 1.5 0 11-3 0m-3 6a1.5 1.5 0 11-3 0m6 0a1.5 1.5 0 01-3 0" />
               </svg>
               Drag cards to explore projects
@@ -280,11 +280,11 @@ const ProjectsWave = () => {
           </motion.div>
         </div>
 
-        {/* ================= STACKED PROJECTS SECTION ================= */}
-        <div className="relative z-20 px-6 pb-8">
+        {/* ================= STACKED PROJECTS SECTION - Mobile optimized ================= */}
+        <div className="relative z-20 px-4 sm:px-6 pb-8">
           <div className="max-w-7xl mx-auto relative">
             {/* Stacked Projects Container */}
-            <div className="relative w-full h-[400px] flex items-center justify-center">
+            <div className="relative w-full h-[350px] sm:h-[400px] flex items-center justify-center">
               {projects.map((project, index) => (
                 <motion.div
                   key={project.id}
@@ -294,7 +294,7 @@ const ProjectsWave = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="absolute w-[280px] group cursor-grab active:cursor-grabbing shadow-2xl"
+                  className="absolute w-[260px] sm:w-[280px] group cursor-grab active:cursor-grabbing shadow-2xl"
                   style={{
                     // Stack cards on top of each other with slight offset
                     top: `${index * 2}px`,
@@ -416,30 +416,30 @@ const ProjectsWave = () => {
           </div>
         </div>
 
-        {/* ================= CALL TO ACTION SECTION ================= */}
-        <div className="relative z-20 py-16 px-6">
+        {/* ================= CALL TO ACTION SECTION - Mobile optimized ================= */}
+        <div className="relative z-20 py-12 sm:py-16 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="font-sans text-3xl md:text-4xl font-bold mb-4 text-white">
+              <h3 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white px-4">
                 Many More To Discover
               </h3>
-              <p className="text-white/80 text-lg mb-8">
+              <p className="text-white/80 text-base sm:text-lg mb-8 px-4">
                 Explore my complete collection of innovative projects
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
                 <a 
                   href="https://github.com/ShivarajNKengannavar"
                   target="_blank"
-                  className="inline-flex items-center gap-2 px-8 py-3 bg-white text-orange-600 font-semibold rounded-lg transition-colors duration-200 hover:scale-105"
+                  className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 bg-white text-orange-600 font-semibold rounded-lg transition-colors duration-200 hover:scale-105"
                 >
                   <Github size={20} />
                   See GitHub
                 </a>
-                <button className="px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold rounded-lg transition-colors duration-200">
+                <button className="px-6 sm:px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold rounded-lg transition-colors duration-200">
                   Discover More
                 </button>
               </div>
