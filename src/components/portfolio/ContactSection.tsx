@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { Send, Mail, Linkedin, Github, MapPin, Loader2, Film } from "lucide-react";
 import { Link } from "react-router-dom";
 import emailjs from '@emailjs/browser';
-import InfiniteCarousel from "./InfiniteCarousel";
+
 
 interface FormState {
   name: string;
@@ -89,25 +89,9 @@ const ContactSection = () => {
 
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-6"
-        >
-          <h2 className="font-bodoni italic font-bold text-[clamp(3.2rem,8vw,6.5rem)] tracking-[-0.02em] leading-[0.92] mb-4">
-            Let's <span className="aurora-text">Connect</span>
-          </h2>
-          <div className="section-divider" />
-          <p className="mt-6 font-inter text-muted-foreground max-w-2xl mx-auto tracking-normal leading-relaxed">
-            Have a project in mind or just want to say hello? I'd love to hear from you.
-          </p>
-        </motion.div>
 
-        {/* Infinite Carousel Section - Moved Above Grid */}
-        <div className="mb-6">
-            <InfiniteCarousel />
-        </div>
+
+
 
         <div className="grid lg:grid-cols-2 gap-4 items-start mb-8">
           {/* Left: Contact Info */}

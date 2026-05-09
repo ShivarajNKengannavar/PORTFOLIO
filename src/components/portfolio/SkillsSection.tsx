@@ -5,13 +5,13 @@ import OrbitingSkills from "@/components/ui/orbiting-skills";
 // Organized by categories for easy navigation
 const skillCategories = {
   "LANGUAGES": ["java", "python", "c", "c++"],
-  "FRONTEND": ["react", "css", "html5"],
-  "BACKEND": ["flask", "django"],
-  "DEVOPS": ["firebase", "vercel", "docker"],
-  "TOOLS": ["git", "postman", "ffmpeg"],
+  "FRONTEND": ["flutter", "angular", "react", "css", "html5"],
+  "BACKEND": ["node.js", "java", "c++", "restapi", "flask", "django"],
+  "DEVOPS": ["render", "firebase", "vercel", "docker"],
+  "TOOLS": ["git", "postman"],
   "PLATFORMS": ["github", "visualstudiocode", "androidstudio"],
-  "DATABASES": ["mongodb", "postgresql", "mysql", "sqlite"],
-  "AI_ML": ["tensorflow", "pytorch", "scikitlearn", "opencv", "ollama"]
+  "DATABASES": ["redis", "mongodb", "postgresql", "mysql", "sqlite"],
+  "AI_ML": ["opencv", "ollama"]
 };
 
 const SkillsSection = () => {
@@ -19,8 +19,11 @@ const SkillsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   
-  // Get active skills based on category
-  const activeSkillsList = activeCategory ? skillCategories[activeCategory as keyof typeof skillCategories] : Object.values(skillCategories).flat();
+  // Get active skills based on category (ensuring uniqueness for the 'All' view)
+  const activeSkillsList = useMemo(() => {
+    const list = activeCategory ? skillCategories[activeCategory as keyof typeof skillCategories] : Object.values(skillCategories).flat();
+    return [...new Set(list)];
+  }, [activeCategory]);
 
   // Transform your skills into config format required by OrbitingSkills
   const orbitingConfig = useMemo(() => {
@@ -39,6 +42,7 @@ const SkillsSection = () => {
       let iconName = skill;
       if (skill === "c++") iconName = "cplusplus";
       if (skill === "c#") iconName = "csharp";
+      if (skill === "node.js") iconName = "nodedotjs";
       
       // List of icons that are naturally black and need to be forced to white
       // to be visible on your dark background.
@@ -53,7 +57,9 @@ const SkillsSection = () => {
 
       const localIcons: Record<string, string> = {
         'visualstudiocode': '/assets/skills/visualstudiocode.svg',
-        'java': '/assets/skills/java.svg'
+        'java': '/assets/skills/java.svg',
+        'render': '/assets/skills/render.svg',
+        'restapi': '/assets/skills/restapi.svg'
       };
       
       const imgUrl = localIcons[skill] || cdnUrl;
@@ -140,7 +146,7 @@ const SkillsSection = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative w-full h-[500px] flex items-center justify-center"
         >
-          <OrbitingSkills customSkills={orbitingConfig} />
+          <OrbitingSkills key={activeCategory || "all"} customSkills={orbitingConfig} />
         </motion.div>
 
         {/* Skills count indicator */}
