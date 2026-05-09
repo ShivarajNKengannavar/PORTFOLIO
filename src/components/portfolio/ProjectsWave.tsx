@@ -436,7 +436,7 @@ const ProjectsWave = () => {
                   target="_blank"
                   className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 bg-white text-orange-600 font-semibold rounded-lg transition-colors duration-200 hover:scale-105"
                 >
-                  <Github size={18} sm:size={20} />
+                  <Github size={18} />
                   See GitHub
                 </a>
                 <button className="px-6 sm:px-8 py-3 border-2 border-white text-white hover:bg-white hover:text-orange-600 font-semibold rounded-lg transition-colors duration-200">

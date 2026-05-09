@@ -35,6 +35,7 @@ const Index = () => {
         <ProjectsWave />
         <ExperienceSection />
         <ContactSection />
+
       </main>
       <Footer />
     </div>
